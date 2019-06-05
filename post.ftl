@@ -40,16 +40,29 @@
         <div class="post-content">
             ${post.formatContent!}
         </div>
-        <?php if ($this->options->WeChat || $this->options->Alipay): ?>
-        <p class="rewards">打赏: <?php if ($this->options->WeChat): ?>
-            <a><img src="<?php $this->options->WeChat(); ?>" alt="微信收款二维码"/>微信</a><?php endif;
-                    if ($this->options->WeChat && $this->options->Alipay): ?>, <?php endif;
-                    if ($this->options->Alipay): ?>
-            <a><img src="<?php $this->options->Alipay(); ?>" alt="支付宝收款二维码"/>支付宝</a><?php endif; ?>
+        <#if settings.WeChat?? || settings.Alipay??>
+        <p class="rewards">打赏:
+            <#if settings.WeChat?? && settings.WeChat!=''>
+                <a><img src="${settings.WeChat}" alt="微信收款二维码"/>微信</a>
+            </#if>
+            &nbsp;
+            <#if settings.Alipay?? && settings.Alipay!=''>
+                <a><img src="${settings.Alipay}" alt="支付宝收款二维码"/>支付宝</a>
+            </#if>
         </p>
-        <?php endif; ?>
-        <p class="tags">标签: <?php $this->tags(', ', true, 'none'); ?></p>
-        <p class="license"><?php echo $this->options->LicenseInfo ? $this->options->LicenseInfo : '本作品采用 <a rel="license nofollow" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可。' ?></p>
+        </#if>
+        <p class="tags">标签:
+            <#if tags?? && tags?size gt 0>
+                <#list tags as tag>
+                    <a href="${context!}/tags/${tag.slugName}">${tag.name}</a>&nbsp;
+                </#list>
+            <#else>
+                无
+            </#if>
+        </p>
+        <p class="license">
+            ${settings.LicenseInfo!'本作品采用 <a rel="license nofollow" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可。'}
+        </p>
     </article>
     <?php $this->need('comments.php'); ?>
     <ul class="post-near">

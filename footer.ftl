@@ -1,3 +1,4 @@
+<#import "/common/macro/common_macro.ftl" as common>
     </div>
     </div>
     <footer id="footer">
@@ -15,10 +16,9 @@
                         href="${context!}">${options.blog_title!}</a>. Powered by <a
                         href="https://halo.run" target="_blank">Halo</a> &amp; <a
                         href="https://github.com/halo-dev/halo-theme-initial" target="_blank">Initial</a>.</p>
-            <?php if ($this->options->ICPbeian): ?>
-                <p><a href="http://www.miitbeian.gov.cn" class="icpnum" target="_blank"
-                      rel="nofollow"><?php $this->options->ICPbeian(); ?></a></p>
-            <?php endif; ?>
+            <p>
+                <@common.globalFooter />
+            </p>
         </div>
     </footer>
 <?php if ($this->options->scrollTop || ($this->options->MusicSet && $this->options->MusicUrl)): ?>
@@ -412,7 +412,4 @@ if ($this->options->CustomContent): $this->options->CustomContent(); ?>
         cl();
         console.log("\n%c Initial By JIElive %c http://www.offodd.com ", "color:#fff;background:#000;padding:5px 0", "color:#fff;background:#666;padding:5px 0")</script>
     </body>
-    </html><?php if ($this->options->compressHtml): $html_source = ob_get_contents();
-    ob_clean();
-    print compressHtml($html_source);
-    ob_end_flush(); endif; ?>
+    </html>

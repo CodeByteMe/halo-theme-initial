@@ -1,0 +1,154 @@
+general:
+  label: 基础设置
+  items:
+    customTitle:
+      name: customTitle
+      label: '自定义头部站点标题'
+      type: text
+      placeholder: '仅在页面头部标题位置显示，和Typecho后台设置的站点名称不冲突，留空则显示默认站点名称'
+
+
+    rss:
+      name: rss
+      label: RSS
+      type: radio
+      data-type: bool
+      default: true
+      options:
+        - value: true
+          label: 开启
+        - value: false
+          label: 关闭
+    twitter:
+      name: twitter
+      label: Twitter
+      type: text
+      placeholder: '只需填入 Twitter 用户名即可'
+    facebook:
+      name: facebook
+      label: Facebook
+      type: text
+      placeholder: '只需填入 Facebook 用户名即可'
+    instagram:
+      name: instagram
+      label: Instagram
+      type: text
+      placeholder: '只需填入 Instagram 用户名即可'
+    dribbble:
+      name: dribbble
+      label: Dribbble
+      type: text
+      placeholder: '只需填入 Dribbble 用户名即可'
+    weibo:
+      name: weibo
+      label: 微博
+      type: text
+      placeholder: '只需填入微博 Id 即可'
+    email:
+      name: email
+      label: Email
+      type: text
+      placeholder: '只需填入邮箱地址即可'
+    github:
+      name: github
+      label: Github
+      type: text
+      placeholder: '只需填入 Github 用户名即可'
+    qq:
+      name: qq
+      label: QQ
+      type: text
+      placeholder: '只需填入 QQ 号即可'
+    telegram:
+      name: telegram
+      label: Telegram
+      type: text
+      placeholder: '只需填入 Telegram Id 即可'
+style:
+  label: 样式设置
+  items:
+    icon:
+      name: icon
+      label: 右上角图标
+      type: text
+      default: '/anatole/source/images/logo.png'
+    post_title_uppper:
+      name: post_title_uppper
+      label: 文章标题大写
+      type: radio
+      data-type: bool
+      default: true
+      options:
+        - value: true
+          label: 开启
+        - value: false
+          label: 关闭
+    blog_title_uppper:
+      name: blog_title_uppper
+      label: 博客标题大写
+      type: radio
+      data-type: bool
+      default: true
+      options:
+        - value: true
+          label: 开启
+        - value: false
+          label: 关闭
+    avatar_circle:
+      name: avatar_circle
+      label: 圆形头像
+      type: radio
+      data-type: bool
+      default: true
+      options:
+        - value: true
+          label: 开启
+        - value: false
+          label: 关闭
+    hitokoto:
+      name: hitokoto
+      label: 博客描述开启一言
+      type: radio
+      data-type: bool
+      default: false
+      options:
+        - value: true
+          label: 开启
+        - value: false
+          label: 关闭
+    google_color:
+      name: google_color
+      label: 浏览器沉浸颜色
+      type: text
+      default: '#fff'
+    scrollbar:
+      name: scrollbar
+      label: 全局滚动条颜色
+      type: text
+      default: '#3798e8'
+    custom:
+      name: custom
+      label: 自定义样式
+      type: textarea
+      placeholder: '不需要 <style></style> 标签'
+
+others:
+  label: 其他设置
+  items:
+    LicenseInfo:
+      name: LicenseInfo
+      label: '文章许可信息'
+      type: text
+      placeholder: '填入后将在文章底部显示你填入的许可信息（支持HTML标签），留空则默认为 (CC BY-SA 4.0)国际许可协议。'
+
+    WeChat:
+      name: WeChat
+      label: '微信打赏二维码（建议图片尺寸不低于240*240）'
+      type: text
+      placeholder: '在这里填入一个图片 URL 地址, 以添加一个微信打赏二维码，留空则不设置微信打赏'
+
+    Alipay:
+      name: Alipay
+      label: '支付宝打赏二维码（建议图片尺寸不低于240*240）'
+      type: text
+      placeholder: '在这里填入一个图片 URL 地址, 以添加一个支付宝打赏二维码，留空则不设置支付宝打赏'
