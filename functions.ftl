@@ -6,37 +6,6 @@ define('INITIAL_VERSION_NUMBER', '2.4.3');
 if (Helper::options()->GravatarUrl) define('__TYPECHO_GRAVATAR_PREFIX__', Helper::options()->GravatarUrl);
 
 function themeConfig($form) {
-	$logoUrl = new Typecho_Widget_Helper_Form_Element_Text('logoUrl', NULL, NULL, _t('站点 LOGO 地址'), _t('在这里填入一个图片 URL 地址, 以在网站标题前加上一个 LOGO'));
-	$form->addInput($logoUrl);
-
-	$subTitle = new Typecho_Widget_Helper_Form_Element_Text('subTitle', NULL, NULL, _t('自定义站点副标题'), _t('浏览器副标题，仅在当前页面为首页时显示，显示格式为：<b>标题 - 副标题</b>，留空则不显示副标题'));
-	$form->addInput($subTitle);
-
-	$customTitle = new Typecho_Widget_Helper_Form_Element_Text('customTitle', NULL, NULL, _t('自定义头部站点标题'), _t('仅在页面头部标题位置显示，和Typecho后台设置的站点名称不冲突，留空则显示默认站点名称'));
-	$form->addInput($customTitle);
-
-	$favicon = new Typecho_Widget_Helper_Form_Element_Text('favicon', NULL, NULL, _t('Favicon 地址'), _t('在这里填入一个图片 URL 地址, 以添加一个Favicon，留空则不单独设置Favicon'));
-	$form->addInput($favicon);
-
-	$cjcdnAddress = new Typecho_Widget_Helper_Form_Element_Text('cjcdnAddress', NULL, NULL, _t('CSS文件的链接地址替换'), _t('请输入你的CDN云存储地址，例如：http://cdn.example.com/，支持绝大部分有镜像功能的CDN服务<br><b>被替换的原地址为主题文件位置，即：http://www.example.com/usr/themes/initial/</b>'));
-	$form->addInput($cjcdnAddress);
-
-	$AttUrlReplace = new Typecho_Widget_Helper_Form_Element_Textarea('AttUrlReplace', NULL, NULL, _t('文章内的链接地址替换（建议用在图片等静态资源的链接上）'), _t('按照格式输入你的CDN链接以替换原链接，格式：<br><b class="notice">原地址=替换地址</b><br>原地址与新地址之间用等号“=”分隔，例如：<br><b>http://www.example.com/usr/uploads/=http://cdn.example.com/usr/uploads/</b><br>支持绝大部分有镜像功能的CDN服务，可设置多个规则，换行即可，一行一个'));
-	$form->addInput($AttUrlReplace);
-
-	$Navset = new Typecho_Widget_Helper_Form_Element_Checkbox('Navset',
-	array('ShowCategory' => _t('显示分类'),
-	'AggCategory' => _t('↪合并分类'),
-	'ShowPage' => _t('显示页面'),
-	'AggPage' => _t('↪合并页面')),
-	array('ShowCategory', 'AggCategory', 'ShowPage'), _t('导航栏显示'), _t('默认显示合并的分类，显示页面'));
-	$form->addInput($Navset->multiMode());
-
-	$CategoryText = new Typecho_Widget_Helper_Form_Element_Text('CategoryText', NULL, NULL, _t('导航栏-分类 下拉菜单显示名称（使用“导航栏显示-合并分类”时生效）'), _t('在这里输入导航栏<b>分类</b>下拉菜单的显示名称,留空则默认显示为“分类”'));
-	$form->addInput($CategoryText);
-
-	$PageText = new Typecho_Widget_Helper_Form_Element_Text('PageText', NULL, NULL, _t('导航栏-页面 下拉菜单显示名称（使用“导航栏显示-合并页面”时生效）'), _t('在这里输入导航栏<b>页面</b>下拉菜单的显示名称,留空则默认显示为“其他”'));
-	$form->addInput($PageText);
 
 	$Breadcrumbs = new Typecho_Widget_Helper_Form_Element_Checkbox('Breadcrumbs',
 	array('Postshow' => _t('文章内显示'),
@@ -45,52 +14,12 @@ function themeConfig($form) {
 	array('Postshow', 'Text', 'Pageshow'), _t('面包屑导航显示'), _t('默认在文章与页面内显示，并将文章标题替换为“正文”'));
 	$form->addInput($Breadcrumbs->multiMode());
 
-	$WeChat = new Typecho_Widget_Helper_Form_Element_Text('WeChat', NULL, NULL, _t('微信打赏二维码（建议图片尺寸不低于240*240）'), _t('在这里填入一个图片 URL 地址, 以添加一个微信打赏二维码，留空则不设置微信打赏'));
-	$form->addInput($WeChat);
-
-	$Alipay = new Typecho_Widget_Helper_Form_Element_Text('Alipay', NULL, NULL, _t('支付宝打赏二维码（建议图片尺寸不低于240*240）'), _t('在这里填入一个图片 URL 地址, 以添加一个支付宝打赏二维码，留空则不设置支付宝打赏'));
-	$form->addInput($Alipay);
-
-	$LicenseInfo = new Typecho_Widget_Helper_Form_Element_Text('LicenseInfo', NULL, NULL, _t('文章许可信息'), _t('填入后将在文章底部显示你填入的许可信息（支持HTML标签），留空则默认为 (CC BY-SA 4.0)国际许可协议。'));
-	$form->addInput($LicenseInfo);
-
-	$HeadFixed = new Typecho_Widget_Helper_Form_Element_Radio('HeadFixed',
-	array(1 => _t('启用'),
-	0 => _t('关闭')),
-	0, _t('浮动显示头部'), _t('默认关闭'));
-	$form->addInput($HeadFixed);
-
-	$SidebarFixed = new Typecho_Widget_Helper_Form_Element_Radio('SidebarFixed',
-	array(1 => _t('启用'),
-	0 => _t('关闭')),
-	0, _t('动态显示侧边栏'), _t('默认关闭'));
-	$form->addInput($SidebarFixed);
-
-	$cjCDN = new Typecho_Widget_Helper_Form_Element_Radio('cjCDN',
-	array('bc' => _t('BootCDN'),
-	'cf' => _t('CDNJS'),
-	'jd' => _t('jsDelivr')),
-	'bc', _t('公共静态资源来源'), _t('默认BootCDN，请根据需求选择合适来源'));
-	$form->addInput($cjCDN);
-
 	$GravatarUrl = new Typecho_Widget_Helper_Form_Element_Radio('GravatarUrl',
 	array(false => _t('官方源'),
 	'https://cn.gravatar.com/avatar/' => _t('国内源'),
 	'https://cdn.v2ex.com/gravatar/' => _t('V2EX源')),
 	false, _t('Gravatar头像源'), _t('默认官方源'));
 	$form->addInput($GravatarUrl);
-
-	$compressHtml = new Typecho_Widget_Helper_Form_Element_Radio('compressHtml',
-	array(1 => _t('启用'),
-	0 => _t('关闭')),
-	0, _t('HTML压缩'), _t('默认关闭，启用则会对HTML代码进行压缩，可能与部分插件存在兼容问题，请酌情选择开启或者关闭'));
-	$form->addInput($compressHtml);
-
-	$PjaxOption = new Typecho_Widget_Helper_Form_Element_Radio('PjaxOption',
-	array(1 => _t('启用'),
-	0 => _t('关闭')),
-	0, _t('全站Pjax'), _t('默认关闭，启用则会强制关闭“反垃圾保护”，强制“将较新的的评论显示在前面”'));
-	$form->addInput($PjaxOption);
 
 	$AjaxLoad = new Typecho_Widget_Helper_Form_Element_Radio('AjaxLoad',
 	array('auto' => _t('自动'),

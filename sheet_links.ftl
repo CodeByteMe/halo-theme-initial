@@ -16,7 +16,7 @@
         <article class="post">
             <h1 class="post-title"><a href="<?php $this->permalink() ?>"><?php $this->title() ?></a></h1>
             <div class="post-content">
-                <?php $this->content(); ?>
+                ${sheet.formatContent!}
                 <ul class="links">
                     <?php if ($this->options->InsideLinksIcon): ?>
                         <script>function erroricon(obj) {
@@ -30,7 +30,8 @@
                 </ul>
             </div>
         </article>
-        <?php $this->need('comments.php'); ?>
+        <#include "comments.ftl">
+        <@comment post=sheet type="sheet" />
     </div>
 <#include "sidebar.ftl">
 <#include "footer.ftl">

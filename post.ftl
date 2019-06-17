@@ -64,7 +64,8 @@
             ${settings.LicenseInfo!'本作品采用 <a rel="license nofollow" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可。'}
         </p>
     </article>
-    <?php $this->need('comments.php'); ?>
+    <#include "comments.ftl">
+    <@comment post=post type="post" />
     <ul class="post-near">
         <li>上一篇:
             <#if prePost??>

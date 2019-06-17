@@ -1,182 +1,115 @@
-<?php
+<#--
 /**
  * 轻语
  *
  * @package custom
  */
-$this->need('header.php');
-function threadedComments($comments, $options)
-{
-    $commentClass = '';
-    if ($comments->authorId) {
-        if ($comments->authorId == $comments->ownerId) {
-            $commentClass .= ' comment-by-author';
-        } else {
-            $commentClass .= ' comment-by-user';
-        }
-    }
-    ?>
-    <li id="li-<?php $comments->theId(); ?>" class="<?php
-    if ($comments->levels == 0) {
-        echo ' whisper-body';
-    } elseif ($comments->levels == 1) {
-        echo 'comment-body comment-parent';
-    } else {
-        echo 'comment-body comment-child';
-    }
-    echo $commentClass;
-    ?>">
-        <div id="<?php $comments->theId(); ?>"<?php
-        if ($comments->levels > 0) {
-            echo ' class="comment-whisper"';
-        }
-        ?>>
-            <?php if ($comments->levels == 0) { ?>
-                <div class="comment-author">
-                    <?php $comments->gravatar('32'); ?>
-                    <cite><?php CommentAuthor($comments); ?></cite>
-                    <?php if ($comments->status == 'waiting') { ?>
-                        <em class="comment-awaiting-moderation">您的评论正等待审核！</em>
-                    <?php } ?>
-                </div>
-                <div class="comment-content">
-                    <?php echo strip_tags(hrefOpen(Markdown::convert($comments->text)), '<p><br><strong><a><img><pre><code>' . Helper::options()->commentsHTMLTagAllowed); ?>
-                </div>
-                <div class="comment-meta">
-                    <time><?php $comments->dateWord(); ?></time>
-                    <?php if (Helper::options()->commentsThreaded && !$comments->isTopLevel && $comments->parameter->allowComment) {
-                        echo '<a class="whisper-reply" onclick="return TypechoComment.reply(\'' . $comments->theId . '\', ' . $comments->coid . ')">评论</a>';
-                    } ?>
-                </div>
-            <?php } else { ?>
-                <div class="comment-author comment-content">
-                    <?php $comments->gravatar('16'); ?>
-                    <cite><?php CommentAuthor($comments); ?>: </cite>
-                    <span <?php
-                    if (Helper::options()->commentsThreaded && !$comments->isTopLevel && $comments->parameter->allowComment) {
-                        echo ' class="whisper-reply" onclick="return TypechoComment.reply(\'' . $comments->theId . '\', ' . $comments->coid . ');"';
-                    }
-                    ?>><?php if ($comments->levels > 1) {
-                            CommentAt($comments->coid);
-                        }
-                        echo strip_tags(str_replace("\r\n", "<br>", $comments->text), "<br>"); ?></span>
-                    <?php if ($comments->status == 'waiting') { ?>
-                        <em>您的评论正等待审核！</em>
-                    <?php } ?>
-                </div>
-            <?php } ?>
+-->
+<#include "header.ftl">
+<@header title="轻语 - ${options.blog_title!}" keywords="${options.seo_keywords!}" description="${options.seo_description!}" />
+<div id="main">
+    <div class="breadcrumbs">
+        <a href="${context!}/">首页</a> » 轻语
+    </div>
+    <article class="post">
+        <h1 class="post-title"><a href="${context!}/whisper.html">轻语</a></h1>
+        <div class="post-content">
+            ${sheet.formatContent!}
         </div>
-        <?php if ($comments->children) { ?>
-            <div class="comment-children">
-                <?php $comments->threadedComments($options); ?>
-            </div>
-        <?php } ?>
-    </li>
-<?php } ?>
-    <div id="main">
-        <?php if (!empty($this->options->Breadcrumbs) && in_array('Pageshow', $this->options->Breadcrumbs)): ?>
-            <div class="breadcrumbs">
-                <a href="${context!}">首页</a> &raquo; <?php $this->title() ?>
-            </div>
-        <?php endif; ?>
-        <article class="post">
-            <h1 class="post-title"><a href="<?php $this->permalink() ?>"><?php $this->title() ?></a></h1>
-            <div class="post-content">
-                <?php $this->content(); ?>
-            </div>
-        </article>
-        <div id="comments" class="whisper<?php if ($this->user->pass('editor', true)): ?> permission<?php endif; ?>">
-            <?php $this->comments()->to($comments); ?>
-            <?php if ($comments->have()): ?>
-                <?php $comments->listComments(); ?>
-                <?php $comments->pageNav('上一页', '下一页', 0, '..'); ?>
-            <?php endif; ?>
-            <?php if ($this->allow('comment')): ?>
-                <div id="<?php $this->respondId(); ?>" class="respond">
-                    <div class="cancel-comment-reply">
-                        <?php $comments->cancelReply('取消评论'); ?>
+    </article>
+    <div id="comments" class="whisper">
+        <ol class="comment-list">
+            <li id="li-comment-1301" class=" whisper-body comment-by-author">
+                <div id="comment-1301">
+                    <div class="comment-author">
+                        <img class="avatar"
+                             src="https://cdn.ryanc.cc/img/blog/thumbnails/d233b4c9312f1d4e19b962009a9f2635.gif"
+                             alt="JIElive" width="32" height="32">
+                        <cite>
+                            <a href="https://www.offodd.com" rel="external nofollow">Ryan Wang</a>
+                        </cite>
                     </div>
-                    <h3 id="response">发表<?php echo $this->user->pass('editor', true) ? '轻语' : '评论' ?></h3>
-                    <form method="post"<?php if ($this->user->pass('editor', true)): ?> action="<?php $this->commentUrl() ?>"<?php endif; ?>
-                          id="comment-form"<?php if (!$this->user->hasLogin()): ?> class="comment-form clearfix"<?php endif; ?>>
-                        <p <?php if (!$this->user->hasLogin()): ?>class="textarea"<?php endif; ?>>
-                            <textarea name="text" id="textarea" placeholder="说点什么..."
-                                      required><?php $this->remember('text'); ?></textarea>
-                        </p>
-                        <p <?php if (!$this->user->hasLogin()): ?>class="textbutton"<?php endif; ?>>
-                            <?php if (!$this->user->hasLogin()): ?>
-                                <input type="text" name="author" id="author" class="text" placeholder="称呼 *"
-                                       value="<?php $this->remember('author'); ?>" required/>
-                                <input type="email" name="mail" id="mail" class="text"
-                                       placeholder="邮箱<?php if ($this->options->commentsRequireMail): ?> *<?php endif; ?>"
-                                       value="<?php $this->remember('mail'); ?>"<?php if ($this->options->commentsRequireMail): ?> required<?php endif; ?> />
-                                <input type="url" name="url" id="url" class="text"
-                                       placeholder="http://<?php if ($this->options->commentsRequireURL): ?> *<?php endif; ?>"
-                                       value="<?php $this->remember('url'); ?>"<?php if ($this->options->commentsRequireURL): ?> required<?php endif; ?> />
-                            <?php endif; ?>
-                            <button type="submit" class="submit">提交</button>
-                        </p>
-                    </form>
+                    <div class="comment-content">
+                        <p>啊，好烦！</p></div>
+                    <div class="comment-meta">
+                        <time>2月20日</time>
+                        <a class="whisper-reply" onclick="return TypechoComment.reply('comment-1301', 1301);">评论</a>
+                    </div>
                 </div>
-            <?php if ($this->options->commentsThreaded): ?>
-                <script>(function () {
-                        window.TypechoComment = {
-                            dom: function (id) {
-                                return document.getElementById(id)
-                            }, create: function (tag, attr) {
-                                var el = document.createElement(tag);
-                                for (var key in attr) {
-                                    el.setAttribute(key, attr[key])
-                                }
-                                return el
-                            }, reply: function (cid, coid) {
-                                var comment = this.dom(cid), parent = comment.parentNode,
-                                    response = this.dom('<?php $this->respondId(); ?>'),
-                                    input = this.dom('comment-parent'),
-                                    form = 'form' == response.tagName ? response : response.getElementsByTagName('form')[0],
-                                    textarea = response.getElementsByTagName('textarea')[0];
-                                if (null == input) {
-                                    input = this.create('input', {
-                                        'type': 'hidden',
-                                        'name': 'parent',
-                                        'id': 'comment-parent'
-                                    });
-                                    form.appendChild(input)
-                                }
-                                input.setAttribute('value', coid);
-                                if (null == this.dom('comment-form-place-holder')) {
-                                    var holder = this.create('div', {'id': 'comment-form-place-holder'});
-                                    response.parentNode.insertBefore(holder, response)
-                                }
-                                form.setAttribute('action', '<?php $this->commentUrl() ?>');
-                                <?php if($this->user->pass('editor', true)): ?>this.dom('response').innerHTML = '发表评论';
-                                <?php endif; ?>comment.appendChild(response);
-                                this.dom('cancel-comment-reply-link').style.display = '';
-                                if (null != textarea && 'text' == textarea.name) {
-                                    textarea.focus()
-                                }
-                                return false
-                            }, cancelReply: function () {
-                                var response = this.dom('<?php $this->respondId(); ?>'),
-                                    holder = this.dom('comment-form-place-holder'), input = this.dom('comment-parent'),
-                                    form = 'form' == response.tagName ? response : response.getElementsByTagName('form')[0];
-                                if (null != input) {
-                                    input.parentNode.removeChild(input)
-                                }
-                                if (null == holder) {
-                                    return true
-                                }
-                                this.dom('cancel-comment-reply-link').style.display = 'none';
-                                form.removeAttribute('action');
-                                <?php if($this->user->pass('editor', true)): ?>this.dom('response').innerHTML = '发表轻语';
-                                <?php endif; ?>holder.parentNode.insertBefore(response, holder);
-                                return false
-                            }
-                        }
-                    })();</script>
-            <?php endif; ?>
-            <?php endif; ?>
+                <div class="comment-children">
+                    <ol class="comment-list">
+                        <li id="li-comment-1427" class="comment-body comment-parent">
+                            <div id="comment-1427" class="comment-whisper">
+                                <div class="comment-author comment-content">
+                                    <img class="avatar"
+                                         src="https://cdn.v2ex.com/gravatar/d0516769034fd444ad76504ee7d72aba?s=16&amp;r=G&amp;d="
+                                         alt="JH" width="16" height="16"><cite><a href="http://www.88cca.com"
+                                                                                  rel="external nofollow"
+                                                                                  target="_blank">JH</a>: </cite>
+                                    <span class="whisper-reply"
+                                          onclick="return TypechoComment.reply('comment-1427', 1427);">添加友联,在链接页面 显示不出来.</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li id="li-comment-1306" class="comment-body comment-parent">
+                            <div id="comment-1306" class="comment-whisper">
+                                <div class="comment-author comment-content">
+                                    <img class="avatar"
+                                         src="https://cdn.v2ex.com/gravatar/9924cdad2140a9f8570393bfebe411a8?s=16&amp;r=G&amp;d="
+                                         alt="枂下" width="16" height="16"><cite><a href="https://black1ce.com"
+                                                                                  rel="external nofollow"
+                                                                                  target="_blank">枂下</a>: </cite>
+                                    <span class="whisper-reply"
+                                          onclick="return TypechoComment.reply('comment-1306', 1306);">好久不见大佬</span>
+                                </div>
+                            </div>
+                            <div class="comment-children">
+                                <ol class="comment-list">
+                                    <li id="li-comment-1311" class="comment-body comment-child comment-by-author">
+                                        <div id="comment-1311" class="comment-whisper">
+                                            <div class="comment-author comment-content">
+                                                <img class="avatar"
+                                                     src="https://cdn.v2ex.com/gravatar/6b09717c8ecadf889e270cd87bcd55b0?s=16&amp;r=G&amp;d="
+                                                     alt="JIElive" width="16" height="16"><cite><a
+                                                            href="https://www.offodd.com" rel="external nofollow">JIElive</a>:
+                                                </cite>
+                                                <span class="whisper-reply"
+                                                      onclick="return TypechoComment.reply('comment-1311', 1311);"><b
+                                                            class="comment-at">@枂下</b>新年好🤣</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ol>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+            </li>
+        </ol>
+        <ol class="page-navigator">
+            <li class="current"><a href="${context!}/s/${sheet.url!}/comment-page-1#comments">1</a></li>
+            <li><span>..</span></li>
+            <li><a href="${context!}/s/${sheet.url!}/comment-page-3#comments">3</a></li>
+            <li class="next"><a href="${context!}/s/${sheet.url!}/comment-page-2#comments">下一页</a></li>
+        </ol>
+        <div id="respond-page-65" class="respond">
+            <div class="cancel-comment-reply">
+                <a id="cancel-comment-reply-link" href="${context!}/s/${sheet.url!}#respond-page-65"
+                   rel="nofollow" style="display:none" onclick="return TypechoComment.cancelReply();">取消评论</a></div>
+            <h3 id="response">发表评论</h3>
+            <form method="post" id="comment-form" class="comment-form clearfix">
+                <p class="textarea">
+                    <textarea name="text" id="textarea" placeholder="说点什么..." required=""></textarea>
+                </p>
+                <p class="textbutton">
+                    <input type="text" name="author" id="author" class="text" placeholder="称呼 *" value="" required="">
+                    <input type="email" name="mail" id="mail" class="text" placeholder="邮箱 *" value="" required="">
+                    <input type="url" name="url" id="url" class="text" placeholder="http://" value="">
+                    <button type="submit" class="submit">提交</button>
+                </p>
+            </form>
         </div>
     </div>
+</div>
 <#include "sidebar.ftl">
 <#include "footer.ftl">

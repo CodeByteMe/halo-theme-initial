@@ -12,7 +12,8 @@
                 ${sheet.formatContent!}
             </div>
         </article>
-        <?php $this->need('comments.php'); ?>
+        <#include "comments.ftl">
+        <@comment post=sheet type="sheet" />
     </div>
 <#include "sidebar.ftl">
 <#include "footer.ftl">
