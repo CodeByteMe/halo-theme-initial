@@ -7,20 +7,6 @@ if (Helper::options()->GravatarUrl) define('__TYPECHO_GRAVATAR_PREFIX__', Helper
 
 function themeConfig($form) {
 
-	$Breadcrumbs = new Typecho_Widget_Helper_Form_Element_Checkbox('Breadcrumbs',
-	array('Postshow' => _t('文章内显示'),
-	'Text' => _t('↪文章标题替换为“正文”'),
-	'Pageshow' => _t('页面内显示')),
-	array('Postshow', 'Text', 'Pageshow'), _t('面包屑导航显示'), _t('默认在文章与页面内显示，并将文章标题替换为“正文”'));
-	$form->addInput($Breadcrumbs->multiMode());
-
-	$GravatarUrl = new Typecho_Widget_Helper_Form_Element_Radio('GravatarUrl',
-	array(false => _t('官方源'),
-	'https://cn.gravatar.com/avatar/' => _t('国内源'),
-	'https://cdn.v2ex.com/gravatar/' => _t('V2EX源')),
-	false, _t('Gravatar头像源'), _t('默认官方源'));
-	$form->addInput($GravatarUrl);
-
 	$AjaxLoad = new Typecho_Widget_Helper_Form_Element_Radio('AjaxLoad',
 	array('auto' => _t('自动'),
 	'click' => _t('点击'),
@@ -28,11 +14,6 @@ function themeConfig($form) {
 	0, _t('Ajax翻页'), _t('默认关闭，启用则会使用Ajax加载文章翻页'));
 	$form->addInput($AjaxLoad);
 
-	$scrollTop = new Typecho_Widget_Helper_Form_Element_Radio('scrollTop',
-	array(1 => _t('启用'),
-	0 => _t('关闭')),
-	0, _t('返回顶部'), _t('默认关闭，启用将在右下角显示“返回顶部”按钮'));
-	$form->addInput($scrollTop);
 
 	$MusicSet = new Typecho_Widget_Helper_Form_Element_Radio('MusicSet',
 	array('order' => _t('顺序播放'),

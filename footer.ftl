@@ -24,9 +24,9 @@
 <?php if ($this->options->scrollTop || ($this->options->MusicSet && $this->options->MusicUrl)): ?>
     <div id="cornertool">
         <ul>
-            <?php if ($this->options->scrollTop): ?>
+            <#if settings.scrollTop!false>
                 <li id="top" class="hidden"></li>
-            <?php endif; ?>
+            </#if>
             <?php if ($this->options->MusicSet && $this->options->MusicUrl): ?>
                 <li id="music" class="hidden">
                     <span><i></i></span>

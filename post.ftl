@@ -1,12 +1,9 @@
 <#include "header.ftl">
 <@header title="${post.title!} - ${options.blog_title!}" keywords="${options.seo_keywords!},${tagWords!}" description="${post.summary!}" />
 <div id="main">
-    <?php if (!empty($this->options->Breadcrumbs) && in_array('Postshow', $this->options->Breadcrumbs)): ?>
     <div class="breadcrumbs">
-        <a href="${context!}">首页</a> &raquo; <?php $this->category(); ?>
-        &raquo; <?php if (!empty($this->options->Breadcrumbs) && in_array('Text', $this->options->Breadcrumbs)): ?>正文<?php else: $this->title(); endif; ?>
+        <a href="${context!}">首页</a> &raquo; ${post.title!}
     </div>
-    <?php endif; ?>
     <article class="post<?php if ($this->options->PjaxOption && $this->hidden): ?> protected<?php endif; ?>">
         <h1 class="post-title"><a href="${context!}/archives/${post.url!}">${post.title!}</a></h1>
         <ul class="post-meta">
