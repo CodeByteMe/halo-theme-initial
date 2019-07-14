@@ -10,7 +10,8 @@
             ), '', ''); ?></div>
         <?php if ($this->have()): ?>
             <?php while ($this->next()): ?>
-                <article class="post">
+                <article
+                        class="post">
                     <h2 class="post-title"><a href="<?php $this->permalink() ?>"><?php $this->title() ?></a></h2>
                     <ul class="post-meta">
                         <li><?php $this->date(); ?></li>

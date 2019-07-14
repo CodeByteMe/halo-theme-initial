@@ -7,62 +7,15 @@ if (Helper::options()->GravatarUrl) define('__TYPECHO_GRAVATAR_PREFIX__', Helper
 
 function themeConfig($form) {
 
-	$AjaxLoad = new Typecho_Widget_Helper_Form_Element_Radio('AjaxLoad',
-	array('auto' => _t('自动'),
-	'click' => _t('点击'),
-	0 => _t('关闭')),
-	0, _t('Ajax翻页'), _t('默认关闭，启用则会使用Ajax加载文章翻页'));
-	$form->addInput($AjaxLoad);
-
-
-	$MusicSet = new Typecho_Widget_Helper_Form_Element_Radio('MusicSet',
-	array('order' => _t('顺序播放'),
-	'shuffle' => _t('随机播放'),
-	0 => _t('关闭')),
-	0, _t('背景音乐'), _t('默认关闭，启用后请填写音乐地址,否则开启无效'));
-	$form->addInput($MusicSet);
-
-	$MusicUrl = new Typecho_Widget_Helper_Form_Element_Textarea('MusicUrl', NULL, NULL, _t('背景音乐地址（建议使用mp3格式）'), _t('请输入完整的音频文件路径，例如：https://music.163.com/song/media/outer/url?id={MusicID}.mp3（好东西^_-）,可设置多个音频，换行即可，一行一个，留空则关闭背景音乐'));
-	$form->addInput($MusicUrl);
-
-	$MusicVol = new Typecho_Widget_Helper_Form_Element_Text('MusicVol', NULL, NULL, _t('背景音乐播放音量（输入范围：0~1）'), _t('请输入一个0到1之间的小数（0为静音  0.5为50%音量  1为100%最大音量）输入错误内容或留空则使用默认音量100%'));
-	$form->addInput($MusicVol->addRule('isInteger', _t('请填入一个0~1内的数字')));
-
-	$InsideLinksIcon = new Typecho_Widget_Helper_Form_Element_Radio('InsideLinksIcon',
-	array(1 => _t('启用'),
-	0 => _t('关闭')),
-	0, _t('显示链接图标（内页）'), _t('默认关闭，启用后内页（链接模板）链接将显示链接图标'));
-	$form->addInput($InsideLinksIcon);
-
 	$IndexLinksSort = new Typecho_Widget_Helper_Form_Element_Text('IndexLinksSort', NULL, NULL, _t('首页显示的链接分类（支持多分类，请用英文逗号“,”分隔）'), _t('若只需显示某分类下的链接，请输入链接分类名（建议使用字母形式的分类名），留空则默认显示全部链接'));
 	$form->addInput($IndexLinksSort);
 
 	$InsideLinksSort = new Typecho_Widget_Helper_Form_Element_Text('InsideLinksSort', NULL, NULL, _t('内页（链接模板）显示的链接分类（支持多分类，请用英文逗号“,”分隔）'), _t('若只需显示某分类下的链接，请输入链接分类名（建议使用字母形式的分类名），留空则默认显示全部链接'));
 	$form->addInput($InsideLinksSort);
 
-	$ShowLinks = new Typecho_Widget_Helper_Form_Element_Checkbox('ShowLinks', array('footer' => _t('页脚'), 'sidebar' => _t('侧边栏')), NULL, _t('首页显示链接'));
-	$form->addInput($ShowLinks->multiMode());
-
-	$ShowWhisper = new Typecho_Widget_Helper_Form_Element_Checkbox('ShowWhisper', array('index' => _t('首页'), 'sidebar' => _t('侧边栏')), NULL, _t('显示最新的“轻语”'));
-	$form->addInput($ShowWhisper->multiMode());
-
-	$sidebarBlock = new Typecho_Widget_Helper_Form_Element_Checkbox('sidebarBlock',
-	array('ShowHotPosts' => _t('显示热门文章（根据评论数量排序）'),
-	'ShowRecentPosts' => _t('显示最新文章'),
-	'ShowRecentComments' => _t('显示最近回复'),
-	'IgnoreAuthor' => _t('↪不显示作者回复'),
-	'ShowCategory' => _t('显示分类'),
-	'ShowTag' => _t('显示标签'),
-	'ShowArchive' => _t('显示归档'),
-	'ShowOther' => _t('显示其它杂项')),
-	array('ShowRecentPosts', 'ShowRecentComments', 'ShowCategory', 'ShowTag', 'ShowArchive', 'ShowOther'), _t('侧边栏显示'));
-	$form->addInput($sidebarBlock->multiMode());
 
 	$ICPbeian = new Typecho_Widget_Helper_Form_Element_Text('ICPbeian', NULL, NULL, _t('ICP备案号'), _t('在这里输入ICP备案号,留空则不显示'));
 	$form->addInput($ICPbeian);
-
-	$CustomContent = new Typecho_Widget_Helper_Form_Element_Textarea('CustomContent', NULL, NULL, _t('底部自定义内容'), _t('位于底部，footer之后body之前，适合放置一些JS内容，如网站统计代码等（若开启全站Pjax，目前支持Google和百度统计的回调，其余统计代码可能会不准确）'));
-	$form->addInput($CustomContent);
 }
 
 function themeInit($archive) {

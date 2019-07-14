@@ -1,5 +1,6 @@
+<#import "funs.ftl" as fun>
 <div id="secondary">
-    <?php if (!empty($this->options->ShowWhisper) && in_array('sidebar', $this->options->ShowWhisper)): ?>
+    <#if settings.ShowWhisper!true>
     <section class="widget">
         <h3 class="widget-title"><?php echo FindContents('page-whisper.php') ? FindContents('page-whisper.php', 'commentsNum', 'd')[0]['title'] : '轻语' ?></h3>
         <ul class="widget-list whisper">
@@ -11,56 +12,66 @@
             <?php endif; ?>
         </ul>
     </section>
-    <?php endif; ?>
-    <?php if (!empty($this->options->sidebarBlock) && in_array('ShowHotPosts', $this->options->sidebarBlock)): ?>
+    </#if>
+    <#if settings.ShowHotPosts!true>
     <section class="widget">
         <h3 class="widget-title">热门文章</h3>
         <ul class="widget-list">
             <?php Contents_Post_Initial($this->options->postsListSize, 'commentsNum'); ?>
         </ul>
     </section>
-    <?php endif; ?>
-    <?php if (!empty($this->options->sidebarBlock) && in_array('ShowRecentPosts', $this->options->sidebarBlock)): ?>
+    </#if>
+    <#if settings.ShowRecentPosts!true>
     <section class="widget">
         <h3 class="widget-title">最新文章</h3>
         <ul class="widget-list">
-            <?php Contents_Post_Initial($this->options->postsListSize); ?>
+<#--            <?php Contents_Post_Initial($this->options->postsListSize); ?>-->
+            <@fun.latestPost size="10" />
         </ul>
     </section>
-    <?php endif; ?>
-    <?php if (!empty($this->options->sidebarBlock) && in_array('ShowRecentComments', $this->options->sidebarBlock)): ?>
+    </#if>
+    <#if settings.ShowRecentComments!true>
     <section class="widget">
         <h3 class="widget-title">最近回复</h3>
         <ul class="widget-list">
-            <?php Contents_Comments_Initial($this->options->commentsListSize, in_array('IgnoreAuthor', $this->options->sidebarBlock) ? 1 : ''); ?>
+<#--            <?php Contents_Comments_Initial($this->options->commentsListSize, in_array('IgnoreAuthor', $this->options->sidebarBlock) ? 1 : ''); ?>-->
+            <@fun.latestComment size="10" />
         </ul>
     </section>
-    <?php endif; ?>
-    <?php if (!empty($this->options->sidebarBlock) && in_array('ShowCategory', $this->options->sidebarBlock)): ?>
+    </#if>
+    <#if settings.ShowCategory!true>
     <section class="widget">
         <h3 class="widget-title">分类</h3>
         <ul class="widget-tile">
-            <?php $this->widget('Widget_Metas_Category_List')
-            ->parse('<li><a href="{permalink}">{name}</a></li>'); ?>
+            <@categoryTag method="list">
+                <#if categories?? && categories?size gt 0>
+                    <#list categories as category>
+                        <li><a href="${context!}/categories/${category.slugName!}">${category.name!}</a></li>
+                    </#list>
+                <#else>
+                    <li>暂无分类</li>
+                </#if>
+            </@categoryTag>
         </ul>
     </section>
-    <?php endif; ?>
-    <?php if (!empty($this->options->sidebarBlock) && in_array('ShowTag', $this->options->sidebarBlock)): ?>
+    </#if>
+    <#if settings.ShowTag!true>
     <section class="widget">
         <h3 class="widget-title">标签</h3>
         <ul class="widget-tile">
-            <?php $this->widget('Widget_Metas_Tag_Cloud', 'ignoreZeroCount=1&limit=30')->to($tags); ?>
-            <?php if ($tags->have()): ?>
-            <?php while ($tags->next()): ?>
-            <li><a href="<?php $tags->permalink(); ?>"><?php $tags->name(); ?></a></li>
-            <?php endwhile; ?>
-            <?php else: ?>
-            <li>暂无标签</li>
-            <?php endif; ?>
+            <@tagTag method="list">
+                <#if tags?? && tags?size gt 0>
+                    <#list tags as tag>
+                        <li><a href="${context!}/tags/${tag.slugName!}">${tag.name!}</a></li>
+                    </#list>
+                <#else>
+                    <li>暂无标签</li>
+                </#if>
+            </@tagTag>
         </ul>
     </section>
-    <?php endif; ?>
-    <?php if (!empty($this->options->sidebarBlock) && in_array('ShowArchive', $this->options->sidebarBlock)): ?>
+    </#if>
+    <#if settings.ShowArchive!true>
     <section class="widget">
         <h3 class="widget-title">归档</h3>
         <ul class="widget-list">
@@ -68,8 +79,8 @@
             ->parse('<li><a href="{permalink}">{date}</a></li>'); ?>
         </ul>
     </section>
-    <?php endif; ?>
-    <?php if (!empty($this->options->ShowLinks) && in_array('sidebar', $this->options->ShowLinks)): ?>
+    </#if>
+    <#if settings.ShowLinks!true>
     <section class="widget">
         <h3 class="widget-title">链接</h3>
         <ul class="widget-tile">
@@ -81,13 +92,13 @@
             <?php endif; ?>
         </ul>
     </section>
-    <?php endif; ?>
-    <?php if (!empty($this->options->sidebarBlock) && in_array('ShowOther', $this->options->sidebarBlock)): ?>
+    </#if>
+    <#if settings.ShowOther!true>
     <section class="widget">
         <h3 class="widget-title">其它</h3>
         <ul class="widget-list">
             <li><a href="${context!}/atom.xml" target="_blank">文章 RSS</a></li>
         </ul>
     </section>
-    <?php endif; ?>
+    </#if>
 </div>

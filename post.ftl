@@ -4,7 +4,7 @@
     <div class="breadcrumbs">
         <a href="${context!}">首页</a> &raquo; ${post.title!}
     </div>
-    <article class="post<?php if ($this->options->PjaxOption && $this->hidden): ?> protected<?php endif; ?>">
+    <article class="post">
         <h1 class="post-title"><a href="${context!}/archives/${post.url!}">${post.title!}</a></h1>
         <ul class="post-meta">
             <li>${post.createTime?string('yyyy-MM-dd')}</li>
@@ -18,13 +18,13 @@
                 </#if>
             </li>
             <li>
-<#--                <a href="${context!}/archives/${post.url!}#comments">-->
-<#--                    <#if comments?? && comments.getTotalElements gt 0>-->
-<#--                        ${comments.getTotalElements} 条评论-->
-<#--                    <#else>-->
-<#--                        暂无评论-->
-<#--                    </#if>-->
-<#--                </a>-->
+            <a href="${context!}/archives/${post.url!}#comments">
+                <#if comments?? && comments.getTotalElements() gt 0>
+                    ${comments.getTotalElements()} 条评论
+                <#else>
+                    暂无评论
+                </#if>
+            </a>
             </li>
             <li>
                 <#if post.visits gt 0>

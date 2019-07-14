@@ -6,17 +6,16 @@
  */
 -->
 <#include "header.ftl">
-<@header title="${sheet.title!} - ${options.blog_title!}" keywords="${options.seo_keywords!}" description="${options.seo_description!}" />
+<@header title="友情链接 - ${options.blog_title!}" keywords="${options.seo_keywords!}" description="${options.seo_description!}" />
     <div id="main">
         <?php if (!empty($this->options->Breadcrumbs) && in_array('Pageshow', $this->options->Breadcrumbs)): ?>
             <div class="breadcrumbs">
-                <a href="${context!}">首页</a> &raquo; ${sheet.title!}
+                <a href="${context!}">首页</a> &raquo; 友情链接
             </div>
         <?php endif; ?>
         <article class="post">
-            <h1 class="post-title"><a href="${context!}/s/${sheet.url!}">${sheet.title!}</a></h1>
+            <h1 class="post-title"><a href="${context!}/links">友情链接</a></h1>
             <div class="post-content">
-                ${sheet.formatContent!}
                 <ul class="links">
                     <#if settings.InsideLinksIcon!false>
                         <script>
@@ -43,8 +42,6 @@
                 </ul>
             </div>
         </article>
-        <#include "comments.ftl">
-        <@comment post=sheet type="sheet" />
     </div>
 <#include "sidebar.ftl">
 <#include "footer.ftl">

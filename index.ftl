@@ -26,7 +26,7 @@
 <#--        <?php endif; ?>-->
         <#if posts??>
             <#list posts.content as post>
-                <article class="post<?php if ($this->options->PjaxOption && $this->hidden): ?> protected<?php endif; ?>">
+                <article class="post">
                     <h2 class="post-title"><a href="${context!}/archives/${post.url!}">${post.title!}</a></h2>
                     <ul class="post-meta">
                         <li>${post.createTime?string('yyyy-MM-dd')}</li>

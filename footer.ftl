@@ -1,4 +1,3 @@
-<#import "/common/macro/common_macro.ftl" as common>
     </div>
     </div>
     <footer id="footer">
@@ -17,30 +16,30 @@
                         href="https://halo.run" target="_blank">Halo</a> &amp; <a
                         href="https://github.com/halo-dev/halo-theme-initial" target="_blank">Initial</a>.</p>
             <p>
-                <@common.globalFooter />
+                <@global.footer />
             </p>
         </div>
     </footer>
-<?php if ($this->options->scrollTop || ($this->options->MusicSet && $this->options->MusicUrl)): ?>
+<#if settings.scrollTop!false || (((settings.MusicSet!'0')!='0') && settings.MusicUrl??)>
     <div id="cornertool">
         <ul>
             <#if settings.scrollTop!false>
                 <li id="top" class="hidden"></li>
             </#if>
-            <?php if ($this->options->MusicSet && $this->options->MusicUrl): ?>
+            <#if (settings.MusicSet!'0')!='0' && settings.MusicUrl??>
                 <li id="music" class="hidden">
                     <span><i></i></span>
                     <audio id="audio" preload="none"></audio>
                 </li>
-            <?php endif; ?>
+            </#if>
         </ul>
     </div>
-<?php endif;
-if ($this->options->PjaxOption || $this->options->AjaxLoad): ?>
-    <script src="//<?php if ($this->options->cjCDN == 'bc'): ?>cdn.bootcss.com/jquery/2.1.4/jquery.min.js<?php elseif ($this->options->cjCDN == 'cf'): ?>cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js<?php else: ?>cdn.jsdelivr.net/npm/jquery@2.1.4/dist/jquery.min.js<?php endif; ?>"></script>
-<?php endif;
-if ($this->options->PjaxOption): ?>
-    <script src="//<?php if ($this->options->cjCDN == 'bc'): ?>cdn.bootcss.com/jquery.pjax/2.0.1/jquery.pjax.min.js<?php elseif ($this->options->cjCDN == 'cf'): ?>cdnjs.cloudflare.com/ajax/libs/jquery.pjax/2.0.1/jquery.pjax.min.js<?php else: ?>cdn.jsdelivr.net/npm/jquery-pjax@2.0.1/jquery.pjax.min.js<?php endif; ?>"></script>
+</#if>
+<#if settings.PjaxOption!false || (settings.AjaxLoad!'0')!='0'>
+    <script src="//cdn.jsdelivr.net/npm/jquery@2.1.4/dist/jquery.min.js"></script>
+</#if>
+<#if settings.PjaxOption!false>
+    <script src="//cdn.jsdelivr.net/npm/jquery-pjax@2.0.1/jquery.pjax.min.js"></script>
     <script>
         jQuery.fn.Shake = function (n, d) {
             this.each(function () {
@@ -66,17 +65,21 @@ if ($this->options->PjaxOption): ?>
             }, 300);
             $('#header').removeClass("on");
             $('#s').val("");
-            <?php if ($this->options->SidebarFixed): ?>$("#secondary").removeAttr("style");<?php endif; ?>}).on('pjax:end', function () {
-            <?php if ($this->options->AjaxLoad): ?>al();
-            <?php endif; ?>cl();
+            <#if settings.SidebarFixed!false>
+            $("#secondary").removeAttr("style");</#if>}).on('pjax:end', function () {
+            <#if settings.AjaxLoad != '0'>
+            al();
+            </#if>
+            cl();
             ac();
             ap();
-            <?php if ($this->options->CustomContent): ?>if (typeof _hmt !== 'undefined') {
+            <#if options.blog_footer_info??>
+            if (typeof _hmt !== 'undefined') {
                 _hmt.push(['_trackPageview', location.pathname + location.search])
             }
             if (typeof ga !== 'undefined') {
                 ga('send', 'pageview', location.pathname + location.search)
-            }<?php endif; ?>});
+            }</#if>});
 
         function ac() {
             $body = $('html,body');
@@ -140,7 +143,7 @@ if ($this->options->PjaxOption): ?>
         }
 
         ac();
-        var protoken = '<?php echo Typecho_Widget::widget('Widget_Security')->getTokenUrl('Token'); ?>'.replace('Token', "");
+        // var protoken = '<?php echo Typecho_Widget::widget('Widget_Security')->getTokenUrl('Token'); ?>'.replace('Token', "");
 
         function ap() {
             $('.protected .post-title a, .protected .more a').click(function () {
@@ -154,15 +157,19 @@ if ($this->options->PjaxOption): ?>
                 ap_m = ap_btn.parent().find('.more a');
                 ap_n = ap_btn.find('.word');
                 $(ap_m).addClass('loading').text("请稍等");
-                <?php if (!$this->options->AjaxLoad): ?>apt();
-                <?php else: ?>aps();
-                <?php endif; ?>return false
+                <#if !(settings.AjaxLoad!='0')>
+                apt();
+                <#else>
+                aps();
+                </#if>
+                return false
             })
         }
 
         ap();
 
-        <?php if (!$this->options->AjaxLoad): ?>function apt() {
+        <#if !(settings.AjaxLoad!='0')>
+        function apt() {
             var b = $('.protected .post-title a').attr("href");
             if ($('h1.post-title').length) {
                 aps()
@@ -181,8 +188,8 @@ if ($this->options->PjaxOption): ?>
                 })
             }
         }
-
-        <?php endif; ?>function aps() {
+        </#if>
+        function aps() {
             var c = ap_btn.parent().parent().find('.post-title a').attr("href");
             $.ajax({
                 url: c + protoken, type: 'post', data: ap_btn.serializeArray(), error: function () {
@@ -205,18 +212,21 @@ if ($this->options->PjaxOption): ?>
                     }
                 }
             })
-        }</script>
-<?php endif;
-if ($this->options->AjaxLoad): ?>
-    <script>var isbool = true;
-        <?php if ($this->options->AjaxLoad == 'auto'): ?>$(window).scroll(function () {
+        }
+    </script>
+</#if>
+<#if (settings.AjaxLoad!'0')!='0'>
+    <script>
+        var isbool = true;
+        <#if (settings.AjaxLoad!'0') == 'auto'>
+        $(window).scroll(function () {
             if (isbool && $('.ajaxload .next a').attr("href") && ($(this).scrollTop() + $(window).height() + 20) >= $(document).height()) {
                 isbool = false;
                 aln()
             }
         });
-
-        <?php endif; ?>function al() {
+        </#if>
+        function al() {
             $('.ajaxload li[class!="next"]').remove();
             $('.ajaxload .next a').click(function () {
                 if (isbool) {
@@ -258,13 +268,16 @@ if ($this->options->AjaxLoad): ?>
                     }
                 })
             }
-        }</script>
-<?php endif; ?>
-<?php $this->footer(); ?>
-<?php if ($this->options->scrollTop || $this->options->HeadFixed || $this->options->SidebarFixed): ?>
-    <script>window.onscroll = function () {
+        }
+    </script>
+</#if>
+
+<#if settings.scrollTop!false || settings.HeadFixed!false || settings.SidebarFixed!false>
+    <script>
+        window.onscroll = function () {
             var a = document.documentElement.scrollTop || document.body.scrollTop;
-                <?php if ($this->options->scrollTop): ?>var b = document.getElementById("top");
+            <#if settings.scrollTop!false>
+            var b = document.getElementById("top");
             if (a >= 200) {
                 b.removeAttribute("class")
             } else {
@@ -279,7 +292,9 @@ if ($this->options->AjaxLoad): ?>
                     cancelAnimationFrame(totop)
                 }
             };
-                <?php endif; if ($this->options->HeadFixed): ?>var d = document.getElementById("header");
+            </#if>
+            <#if settings.HeadFixed!false>
+            var d = document.getElementById("header");
             if (a > 0 && a < 30) {
                 d.style.padding = (15 - a / 2) + "px 0"
             } else if (a >= 30) {
@@ -287,7 +302,9 @@ if ($this->options->AjaxLoad): ?>
             } else {
                 d.removeAttribute("style")
             }
-                <?php endif; if ($this->options->SidebarFixed): ?>var e = document.getElementById("main");
+            </#if>
+            <#if settings.SidebarFixed!false>
+            var e = document.getElementById("main");
             var f = document.getElementById("secondary");
             var g = document.documentElement.clientHeight;
             var h =<?php echo $this->options->HeadFixed ? 0 : 41 ?>;
@@ -307,18 +324,23 @@ if ($this->options->AjaxLoad): ?>
                 } else {
                     f.removeAttribute("style")
                 }
-            }<?php endif; ?>}</script>
-<?php endif;
-if ($this->options->MusicSet && $this->options->MusicUrl): ?>
+            }
+            </#if>
+        }
+    </script>
+</#if>
+<#if (settings.MusicSet!'0')!='0' && settings.MusicUrl??>
     <script>(function () {
             var a = document.getElementById("audio");
             var b = document.getElementById("music");
-            var c =<?php Playlist() ?>;
-                <?php if ($this->options->MusicVol): ?>var d =<?php $this->options->MusicVol(); ?>;
+            var c = ${settings.MusicUrl!};
+            <#if settings.MusicVol??>
+            var d =${settings.MusicVol!};
             if (d >= 0 && d <= 1) {
                 a.volume = d
             }
-            <?php endif; ?>a.src = c.shift();
+            </#if>
+            a.src = c.shift();
             a.addEventListener('play', g);
             a.addEventListener('pause', h);
             a.addEventListener('ended', f);
@@ -375,11 +397,10 @@ if ($this->options->MusicSet && $this->options->MusicUrl): ?>
             };
             b.removeAttribute("class")
         })();</script>
-<?php endif;
-if ($this->options->CustomContent): $this->options->CustomContent(); ?>
-
-<?php endif; ?>
-    <script>var cornertool = true;
+</#if>
+<@global.footer />
+    <script>
+        var cornertool = true;
 
         function cl() {
             var a = document.getElementById("catalog-col"), b = document.getElementById("catalog"),

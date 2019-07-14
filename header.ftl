@@ -1,4 +1,3 @@
-<#import "/common/macro/common_macro.ftl" as common>
 <#macro header title,keywords,description>
 <!DOCTYPE html>
 <html>
@@ -6,7 +5,7 @@
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-    <@common.globalHeader />
+    <@global.head />
     <title>${title!}</title>
     <meta name="description" content="${description!}" />
     <meta name="keywords" content="${keywords!}" />
@@ -46,7 +45,7 @@
         <button id="nav-swith" onclick="Navswith()"><span></span></button>
         <div id="nav">
             <div id="site-search">
-                <form id="search" method="post" action="${context!}/search">
+                <form id="search" method="get" action="${context!}/search">
                     <input type="text" id="s" name="keyword" class="text" placeholder="输入关键字搜索" required/>
                     <button type="submit"></button>
                 </form>
