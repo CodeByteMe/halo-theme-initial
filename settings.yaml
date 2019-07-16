@@ -55,6 +55,17 @@ general:
 style:
   label: 样式设置
   items:
+    ShowThumbnail:
+      name: ShowThumbnail
+      label: 文章缩略图
+      type: radio
+      data-type: bool
+      default: false
+      options:
+        - value: true
+          label: 开启
+        - value: false
+          label: 关闭
     HeadFixed:
       name: HeadFixed
       label: 浮动显示头部

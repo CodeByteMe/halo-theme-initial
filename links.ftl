@@ -8,11 +8,9 @@
 <#include "header.ftl">
 <@header title="友情链接 - ${options.blog_title!}" keywords="${options.seo_keywords!}" description="${options.seo_description!}" />
     <div id="main">
-        <?php if (!empty($this->options->Breadcrumbs) && in_array('Pageshow', $this->options->Breadcrumbs)): ?>
-            <div class="breadcrumbs">
-                <a href="${context!}">首页</a> &raquo; 友情链接
-            </div>
-        <?php endif; ?>
+        <div class="breadcrumbs">
+            <a href="${context!}">首页</a> &raquo; 友情链接
+        </div>
         <article class="post">
             <h1 class="post-title"><a href="${context!}/links">友情链接</a></h1>
             <div class="post-content">

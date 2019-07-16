@@ -8,11 +8,9 @@
 <#include "header.ftl">
 <@header title="归档 - ${options.blog_title!}" keywords="${options.seo_keywords!}" description="${options.seo_description!}" />
 <div id="main">
-    <?php if (!empty($this->options->Breadcrumbs) && in_array('Pageshow', $this->options->Breadcrumbs)): ?>
     <div class="breadcrumbs">
         <a href="${context!}">首页</a> &raquo; 归档
     </div>
-    <?php endif; ?>
     <article class="post">
         <h1 class="post-title"><a href="${context!}/archives">归档</a></h1>
         <div id="archives">

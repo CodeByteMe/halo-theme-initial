@@ -27,7 +27,7 @@
                         </li>
                     </ul>
                     <div class="post-content">
-                        <#if post.thumbnail?? && post.thumbnail!=''>
+                        <#if post.thumbnail?? && post.thumbnail!='' && settings.ShowThumbnail!false>
                         <p class="thumb"><img src="${post.thumbnail!}"></p>
                         </#if>
                         <p>${post.summary!}</p>
